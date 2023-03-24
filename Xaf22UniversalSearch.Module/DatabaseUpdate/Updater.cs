@@ -133,16 +133,33 @@ public class Updater : ModuleUpdater
     }
     void CreateProducts()
     {
-        string[] foodNames = { "Hamburger", "Pizza", "Tacos", "Sushi", "Fried chicken", "Spaghetti", "Burrito", "Steak", "Salmon", "Pad Thai" };
-        string[] categories = { "Burgers", "Pizza", "Mexican", "Japanese", "Fried chicken", "Italian", "Mexican", "Steakhouse", "Seafood", "Thai" };
+        //string[] foodNames = { "Hamburger", "Pizza", "Tacos", "Sushi", "Fried chicken", "Spaghetti", "Burrito", "Steak", "Salmon", "Pad Thai" };
+        //string[] categories = { "Burgers", "Pizza", "Mexican", "Japanese", "Fried chicken", "Italian", "Mexican", "Steakhouse", "Seafood", "Thai" };
 
-        // Create 25 new products using the food names and categories
+        //// Create 25 new products using the food names and categories
+        //for (int i = 0; i < 25; i++)
+        //{
+        //    var Product = this.ObjectSpace.CreateObject<Product>();
+        //    Product.Name = foodNames[i % 10]; // Use the modulo operator to cycle through the food names
+        //    Product.Category = categories[i % 10]; // Use the modulo operator to cycle through the categories
+        //    Product.Description = "Delicious " + foodNames[i % 10] + " with " + categories[i % 10] + " toppings";
+        //}
+        // Define an array of product names, categories, and descriptions
+        string[] productNames = { "Hamburger", "Pizza", "Tacos", "Sushi", "Fried chicken", "Spaghetti", "Burrito", "Steak", "Salmon", "Pad Thai" };
+        string[] categories = { "Fast food", "Italian", "Mexican", "Japanese", "Fried chicken", "Italian", "Mexican", "Steakhouse", "Seafood", "Thai" };
+        string[] descriptions = { "Double decker hamburger with cheese", "Thin crust pizza with pepperoni", "Soft shell tacos with beef", "Assorted sushi rolls with wasabi", "Crispy fried chicken with hot sauce", "Spaghetti with meatballs and marinara sauce", "Bean and cheese burrito with guacamole", "Juicy sirloin steak with baked potato", "Grilled salmon with lemon butter sauce", "Spicy pad Thai noodles with shrimp" };
+
+        // Create 25 new products using the arrays of product names, categories, and descriptions
         for (int i = 0; i < 25; i++)
         {
-            var Product = this.ObjectSpace.CreateObject<Product>();
-            Product.Name = foodNames[i % 10]; // Use the modulo operator to cycle through the food names
-            Product.Category = categories[i % 10]; // Use the modulo operator to cycle through the categories
-            Product.Description = "Delicious " + foodNames[i % 10] + " with " + categories[i % 10] + " toppings";
+            var existingProduct = ObjectSpace.FindObject<Product>(CriteriaOperator.Parse("Name = ?", productNames[i % 10]));
+            if (existingProduct == null)
+            {
+                var Product = ObjectSpace.CreateObject<Product>();
+                Product.Name = productNames[i % 10];
+                Product.Category = categories[i % 10];
+                Product.Description = descriptions[i % 10];
+            }
         }
     }
     public override void UpdateDatabaseBeforeUpdateSchema()
